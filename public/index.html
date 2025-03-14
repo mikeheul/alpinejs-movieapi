@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recherche de films avec OMDb API - AlpineJS</title>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.min.js" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-900 text-white flex justify-center items-center min-h-screen">
+
+    <div x-data="movieSearch()" class="w-full max-w-4xl p-6 bg-gray-800 rounded-lg shadow-lg">
+
+        <!-- Titre -->
+        <h1 class="text-3xl font-bold mb-6 text-center">Recherche de films</h1>
+
+        <!-- Champ de recherche -->
+        <input type="text" x-model="searchQuery" @input="fetchMovies" placeholder="Recherche un film" 
+            class="w-full p-3 mb-6 text-xl bg-gray-700 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+        <!-- Affichage des résultats -->
+        <template x-if="movies.length > 0">
+            <ul>
+                <template x-for="movie in movies" :key="movie.imdbID">
+                    <li class="bg-gray-700 p-4 mb-4 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold" x-text="movie.Title"></h3>
+                        <p class="text-gray-400" x-text="movie.Year"></p>
+                        <p class="text-gray-500" x-text="movie.Plot || 'Aucune description disponible'"></p>
+                        <button @click="alert('Détails du film: ' + movie.Title)" 
+                            class="mt-4 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition duration-200">Voir détails</button>
+                    </li>
+                </template>
+            </ul>
+        </template>
+
+        <!-- Message si aucun film trouvé -->
+        <div x-show="movies.length === 0" class="text-center text-gray-400 mt-6">
+            Aucune correspondance pour cette recherche.
+        </div>
+
+    </div>
+
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>
